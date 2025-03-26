@@ -1,0 +1,99 @@
+openapi: 3.0.0
+info:
+  title: NSW Crime Data API
+  description: Provides historical and recent crime data for NSW suburbs using statistics from the NSW BOCSAR open data website.
+  version: 1.1.0
+servers:
+  - url: https://favnlumox2.execute-api.us-east-1.amazonaws.com/test?suburb={suburb}&detailed=boolean
+    description: Production Server
+
+paths:
+  /crime/{suburb}:
+    get:
+      summary: Retrieve crime statistics and trends for a given suburb
+      description: Returns crime statistics and historical trends for the requested suburb from the DynamoDB `CrimeData` table.
+      operationId: getCrimeBySuburb
+      parameters:
+        - name: suburb
+          in: path
+          required: true
+          description: Name of the suburb (case-insensitive)
+          schema:
+            type: string
+            example: "Kensington"
+        - name: detailed
+          in: query
+          required: false
+          description: If `true`, returns full crime data. If `false`, removes per-year and per-month breakdown.
+          schema:
+            type: boolean
+            example: true
+      responses:
+        "200":
+          description: Crime statistics and trends for the requested suburb
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  suburb:
+                    type: string
+                    example: "Kensington"
+                  totalNumCrimes:
+                    type: integer
+                    example: 500
+                  crimeSummary:
+                    type: object
+                    additionalProperties:
+                      type: object
+                      properties:
+                        totalNum:
+                          type: integer
+                          example: 250
+                        subCrimeType:
+                          type: object
+                          additionalProperties:
+                            type: object
+                            properties:
+                              totalNum:
+                                type: integer
+                                example: 100
+                  crimeTrends:
+                    type: object
+                    additionalProperties:
+                      type: object
+                      properties:
+                        trendSlope:
+                          type: number
+                          example: -0.5
+                        trendPercentage:
+                          type: number
+                          example: -12.5
+                        movingAvg:
+                          type: number
+                          example: 45
+                        trendCategory:
+                          type: string
+                          example: "Decreasing"
+        "400":
+          description: Missing required parameter `suburb`
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Missing required parameter: suburb"
+        "404":
+          description: Suburb not found in the dataset.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "No data found for suburb: {suburb}"
+        "500":
+          description: Internal server error

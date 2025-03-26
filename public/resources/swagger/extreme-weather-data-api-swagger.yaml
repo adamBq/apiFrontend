@@ -1,0 +1,113 @@
+openapi: 3.0.0
+info:
+  title: Extreme Weather Data API
+  description: Provides historical and real-time extreme weather data based on NSW natural disaster declarations.
+  version: 1.0.0
+servers:
+  - url: https://m42dj4mgj8.execute-api.ap-southeast-2.amazonaws.com/prod
+    description: Production Server
+
+paths:
+
+  /data/weather/suburb:
+    post:
+      summary: Retrieve extreme weather trends for a given suburb
+      description: >
+        Returns disaster occurrence data and relevant natural disasters for the requested suburb.
+        The request body must include a JSON payload with a `suburb` key and an optional `includeHighest` flag.
+      operationId: getSuburbData
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                suburb:
+                  type: string
+                  description: The name of the suburb (case-insensitive).
+                  example: "Sydney"
+                includeHighest:
+                  type: boolean
+                  description: >
+                    If true, the response will also include the suburb with the highest number of disaster occurrences.
+                  example: true
+                  default: false
+      responses:
+        "200":
+          description: Extreme weather trends for the requested suburb.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "success"
+                  message:
+                    type: string
+                    example: "Data found for suburb 'Sydney'."
+                  requestedSuburbData:
+                    type: object
+                    description: Details of the requested suburb.
+                    properties:
+                      suburb:
+                        type: string
+                        example: "Sydney"
+                      occurrences:
+                        type: integer
+                        example: 12
+                      disasterNames:
+                        type: array
+                        items:
+                          type: string
+                        example:
+                          - "NSW Flooding from 14 September 2022 onwards"
+                          - "NSW severe weather and flooding 9 November 2021 onwards"
+                  highestSuburbData:
+                    type: object
+                    description: >
+                      (Optional) Data for the suburb with the highest number of occurrences, returned only if `includeHighest` is true.
+                    properties:
+                      suburb:
+                        type: string
+                        example: "Newcastle"
+                      occurrences:
+                        type: integer
+                        example: 20
+                      disasterNames:
+                        type: array
+                        items:
+                          type: string
+                        example:
+                          - "NSW severe weather and flooding 9 November 2021 onwards"
+        "400":
+          description: Bad request (e.g., no suburb specified in the request).
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "No suburb specified in the request."
+        "404":
+          description: Resource not found (e.g., the aggregated file could not be found in S3).
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Could not find nsw_suburb_disaster_rankings.json in bucket fy18-19-to-fy23-24-nsw-disasters."
+        "500":
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Error reading nsw_suburb_disaster_rankings.json from S3."
