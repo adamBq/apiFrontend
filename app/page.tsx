@@ -5,6 +5,33 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ArrowRight, Cloud } from "lucide-react"
 
 export default function HomePage() {
+  const crimeExample = `GET /crime/Kensington?detailed=true`;
+
+  const extremeWeatherExample = `POST /data/weather/suburb
+Headers: Content-Type: application/json
+Body: 
+{
+  "suburb": "Sydney",
+  "includeHighest": true
+}`;
+
+  const familyExample = `GET /family/Strathfield
+GET /family/population/Strathfield`;
+
+  const livabilityExample = `POST /livability_score
+Headers: Content-Type: application/json
+Body: 
+{
+  "address": "123 Main St, Anytown",
+  "weights": {
+    "crime": 0.8,
+    "weather": 0.7,
+    "publicTransportation": 0.6,
+    "familyDemographics": 0.9
+  }
+}`;
+
+
   return (
     <div className="flex min-h-screen flex-col">
       {/* HEADER */}
@@ -104,7 +131,7 @@ export default function HomePage() {
                     <div className="rounded-md bg-muted p-4">
                       <h3 className="mb-2 font-medium">Example Request</h3>
                       <pre className="text-sm text-muted-foreground overflow-x-auto">
-                        GET /api/crime/stats?location=chicago&amp;year=2023
+                        {crimeExample}
                       </pre>
                     </div>
                   </CardContent>
@@ -136,7 +163,7 @@ export default function HomePage() {
                     <div className="rounded-md bg-muted p-4">
                       <h3 className="mb-2 font-medium">Example Request</h3>
                       <pre className="text-sm text-muted-foreground overflow-x-auto">
-                        GET /api/weather/alerts?region=florida&amp;type=hurricane
+                        {extremeWeatherExample}
                       </pre>
                     </div>
                   </CardContent>
@@ -169,7 +196,7 @@ export default function HomePage() {
                     <div className="rounded-md bg-muted p-4">
                       <h3 className="mb-2 font-medium">Example Request</h3>
                       <pre className="text-sm text-muted-foreground overflow-x-auto">
-                        GET /api/family/resources?location=boston&amp;type=childcare
+                        {familyExample}
                       </pre>
                     </div>
                   </CardContent>
@@ -203,7 +230,7 @@ export default function HomePage() {
                     <div className="rounded-md bg-muted p-4">
                       <h3 className="mb-2 font-medium">Example Request</h3>
                       <pre className="text-sm text-muted-foreground overflow-x-auto">
-                        GET /api/livability/score?city=austin&amp;state=texas
+                        {livabilityExample}
                       </pre>
                     </div>
                   </CardContent>
