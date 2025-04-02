@@ -256,7 +256,7 @@ export default function DashboardPage() {
                   <div>
                     <h3 className="mb-2 text-sm font-medium">Example Request</h3>
                     <div className="overflow-x-auto rounded-md bg-muted p-4 font-mono text-sm">
-                      {`curl -X GET "https://api.example.com/crime/stats?location=chicago" \\
+                      {`curl -X GET "https://m42dj4mgj8.execute-api.ap-southeast-2.amazonaws.com/prod/crime/Sydney" \\
   -H "x-api-key: YOUR_API_KEY"`}
                     </div>
                   </div>
@@ -264,16 +264,16 @@ export default function DashboardPage() {
                     <h3 className="mb-2 text-sm font-medium">Available Endpoints</h3>
                     <ul className="list-disc space-y-1 pl-5 text-sm">
                       <li>
-                        <code>/api/crime/*</code> - Crime data and statistics
+                        <code>/crime/*</code> - Crime data and statistics
                       </li>
                       <li>
-                        <code>/api/weather/*</code> - Extreme weather alerts and forecasts
+                        <code>/weather/*</code> - Extreme weather alerts and forecasts
                       </li>
                       <li>
-                        <code>/api/family/*</code> - Family services and resources
+                        <code>/family/*</code> - Family services and resources
                       </li>
                       <li>
-                        <code>/api/livability/*</code> - Livability metrics and comparisons
+                        <code>/livability</code> - Livability metrics and comparisons
                       </li>
                     </ul>
                   </div>

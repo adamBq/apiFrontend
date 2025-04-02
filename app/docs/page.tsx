@@ -6,12 +6,16 @@ import Link from "next/link";
 import "swagger-ui-react/swagger-ui.css";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { useAuth } from "@/contexts/auth-context"; 
+
 
 // Dynamically import swagger-ui-react
 const SwaggerUI = dynamic(() => import("swagger-ui-react"), { ssr: false });
 
 export default function DocsPage() {
   const [activeTab, setActiveTab] = useState("crime");
+  const { user, logout } = useAuth(); 
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -22,12 +26,27 @@ export default function DocsPage() {
             API Portal
           </Link>
           <nav className="flex items-center gap-4">
-            <Link href="/login" className="text-sm">
-              Login
-            </Link>
-            <Link href="/signup" className="text-sm">
-              Sign Up
-            </Link>
+            {user ? (
+              <>
+                <Link href="/dashboard">
+                  <Button variant="outline" size="sm">
+                    Dashboard
+                  </Button>
+                </Link>
+                <Button variant="outline" size="sm" onClick={logout}>
+                  Logout
+                </Button>
+              </>
+            ) : (
+              <>
+                <Link href="/login" className="text-sm">
+                  Login
+                </Link>
+                <Link href="/signup" className="text-sm">
+                  Sign Up
+                </Link>
+              </>
+            )}
           </nav>
         </div>
       </header>

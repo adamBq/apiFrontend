@@ -5,22 +5,35 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ArrowRight, Cloud } from "lucide-react"
 
 export default function HomePage() {
-  const crimeExample = `GET /crime/Kensington?detailed=true`;
+  const crimeExample = `GET /crime/Kensington?detailed=true  
+Headers:  
+x-api-key: YOUR_API_KEY`;
 
-  const extremeWeatherExample = `POST /data/weather/suburb
-Headers: Content-Type: application/json
-Body: 
+  const extremeWeatherExample = `POST /data/weather/suburb  
+Headers:  
+Content-Type: application/json  
+x-api-key: YOUR_API_KEY  
+
+Body:  
 {
   "suburb": "Sydney",
   "includeHighest": true
 }`;
 
-  const familyExample = `GET /family/Strathfield
-GET /family/population/Strathfield`;
+  const familyExample = `GET /family/Strathfield  
+Headers:  
+x-api-key: YOUR_API_KEY
 
-  const livabilityExample = `POST /livability_score
-Headers: Content-Type: application/json
-Body: 
+GET /family/population/Strathfield  
+Headers:  
+x-api-key: YOUR_API_KEY`;
+
+  const livabilityExample = `POST /livability_score  
+Headers:  
+Content-Type: application/json  
+x-api-key: YOUR_API_KEY  
+
+Body:  
 {
   "address": "123 Main St, Anytown",
   "weights": {
@@ -136,7 +149,7 @@ Body:
                     </div>
                   </CardContent>
                   <CardFooter>
-                    <Link href="/docs/crime">
+                    <Link href="/docs">
                       <Button variant="outline" className="w-full">
                         View Full Documentation
                       </Button>
@@ -168,7 +181,7 @@ Body:
                     </div>
                   </CardContent>
                   <CardFooter>
-                    <Link href="/docs/weather">
+                    <Link href="/docs">
                       <Button variant="outline" className="w-full">
                         View Full Documentation
                       </Button>
@@ -201,7 +214,7 @@ Body:
                     </div>
                   </CardContent>
                   <CardFooter>
-                    <Link href="/docs/family">
+                    <Link href="/docs">
                       <Button variant="outline" className="w-full">
                         View Full Documentation
                       </Button>
@@ -235,7 +248,7 @@ Body:
                     </div>
                   </CardContent>
                   <CardFooter>
-                    <Link href="/docs/livability">
+                    <Link href="/docs">
                       <Button variant="outline" className="w-full">
                         View Full Documentation
                       </Button>
